@@ -124,6 +124,14 @@ class SearchResults extends ViewableData
     }
 
     /**
+     * @return array
+     */
+    public function getIDs(): array
+    {
+        return $this->results?->column('RecordID') ?? [];
+    }
+
+    /**
      * @var array
      */
     protected array $cachedList = [];

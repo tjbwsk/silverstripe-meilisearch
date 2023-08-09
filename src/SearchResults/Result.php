@@ -9,7 +9,6 @@ use SilverStripe\View\ViewableData;
  * Class Result
  * @package BimTheBam\Meilisearch\SearchResults
  * @property DataObject|null $Record
- * @property float $Score
  */
 class Result extends ViewableData
 {
@@ -24,13 +23,13 @@ class Result extends ViewableData
     protected ?DataObject $record = null;
 
     /**
-     * @param string $recordClassName
-     * @param int $recordID
+     * @param string $RecordClassName
+     * @param int $RecordID
      */
     public function __construct(
-        protected readonly string $recordClassName,
-        protected readonly int $recordID,
-        protected readonly float $score
+        public readonly string $RecordClassName,
+        public readonly int $RecordID,
+        public readonly float $Score
     ) {
         parent::__construct();
     }
@@ -46,14 +45,6 @@ class Result extends ViewableData
 
         $this->recordFetched = true;
 
-        return $this->record = DataObject::get_by_id($this->recordClassName, $this->recordID);
-    }
-
-    /**
-     * @return float
-     */
-    public function getScore(): float
-    {
-        return $this->score;
+        return $this->record = DataObject::get_by_id($this->RecordClassName, $this->RecordID);
     }
 }
