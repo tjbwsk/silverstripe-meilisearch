@@ -1,0 +1,15 @@
+de:
+  BimTheBam\Meilisearch\Form\SearchForm:
+    ACTION_DO_SEARCH: Suchen
+    FIELD_DESCRIPTION_Q: 'Mindestens 3 Zeichen.'
+    FIELD_LABEL_Q: Suchbegriff
+    FIELD_LABEL_SEARCH_IN: 'Suche eingrenzen auf'
+  BimTheBam\Meilisearch\Model\CMS\SearchPage:
+    NO_RESULTS: 'Keine Ergebnisse.'
+    PLURALNAME: Suchseiten
+    PLURALS:
+      one: 'Eine Suchseite'
+      other: '{count} Suchseiten'
+    SEARCH_RESULTS: Suchergebnisse
+    SINGULARNAME: Suchseite
+    TO_CONTENT: 'Zum Inhalt'

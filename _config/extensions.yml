@@ -1,0 +1,7 @@
+---
+Name: bimthebam-silverstripe-meilisearch-extensions
+---
+
+SilverStripe\CMS\Model\SiteTree:
+  extensions:
+    - BimTheBam\Meilisearch\Model\Extension\SiteTree

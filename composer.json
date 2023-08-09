@@ -1,0 +1,27 @@
+{
+    "name": "bimthebam/silverstripe-meilisearch",
+    "description": "Easily integrate meilisearch into SilverStripe",
+    "type": "silverstripe-vendormodule",
+    "keywords": ["silverstripe", "meilisearch", "search", "fulltext search"],
+    "license": "BSD-3-Clause",
+    "authors": [
+        {
+            "name": "Christian Bünte (bimthebam)",
+            "homepage": "https://github.com/bimthebam"
+        }
+    ],
+    "require": {
+        "php": "^8.1",
+        "composer/installers": "*",
+        "guzzlehttp/guzzle": "^7",
+        "http-interop/http-factory-guzzle": "^1",
+        "meilisearch/meilisearch-php": "^1.3",
+        "ramsey/uuid": "^4.0",
+        "silverstripe/framework": "^4.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "BimTheBam\\Meilisearch\\": "src/"
+        }
+    }
+}
