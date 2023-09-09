@@ -317,40 +317,22 @@ abstract class Index
     protected array $uncommitted = [];
 
     /**
-     * @param Document|array $documents
+     * @param Document $document
      * @param bool $commit
      * @return $this
      * @throws NotFoundExceptionInterface
      * @throws Throwable
      */
-    public function add(Document|array $documents, bool $commit = true): self
+    public function add(Document $document, bool $commit = true): self
     {
-        if (!is_array($documents)) {
-            $documents = [$documents];
-        }
-
         $excludedClasses = static::config()->uninherited('excluded_classes') ?? [];
 
-        foreach ($documents as $key => $document) {
-            if (
-                !($document instanceof Document)
-                || in_array($document->record::class, $excludedClasses)
-            ) {
-                unset($documents[$key]);
+        if (!$excludedClasses || !in_array($document->record::class, $excludedClasses)) {
+            $this->uncommitted[] = $document->toArray();
+
+            if ($commit) {
+                $this->commit();
             }
-        }
-
-        if (empty($documents)) {
-            return $this;
-        }
-
-        $this->uncommitted = array_merge(
-            $this->uncommitted,
-            $documents
-        );
-
-        if ($commit) {
-            $this->commit();
         }
 
         return $this;
@@ -367,13 +349,7 @@ abstract class Index
             return $this;
         }
 
-        $documents = [];
-
-        foreach ($this->uncommitted as $document) {
-            $documents[] = $document->toArray();
-        }
-
-        static::get_client()->index($this->getIndexName())->addDocuments($documents, 'ID');
+        static::get_client()->index($this->getIndexName())->addDocuments($this->uncommitted, 'ID');
 
         $this->uncommitted = [];
 
