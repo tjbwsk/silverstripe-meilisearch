@@ -288,19 +288,33 @@ abstract class Index
             Versioned::set_stage(Versioned::LIVE);
         }
 
-        foreach ($this->getDataList() as $record) {
-            /** @var DataObject|FluentVersionedExtension|FluentExtension $record */
-            if (
-                ($record->hasExtension(FluentVersionedExtension::class) && !$record->isPublishedInLocale())
-                || ($record->hasExtension(FluentExtension::class) && !$record->existsInLocale())
-            ) {
-                continue;
+        $chunkSize = 500;
+        $currentChunk = 0;
+
+        // Keep looping until we run out of chunks
+        while ($chunk = $this->getDataList()->limit($chunkSize, $chunkSize * $currentChunk)->getIterator()) {
+            // Loop over all the item in our chunk
+            foreach ($chunk as $record) {
+                /** @var DataObject|FluentVersionedExtension|FluentExtension $record */
+                if (
+                    ($record->hasExtension(FluentVersionedExtension::class) && !$record->isPublishedInLocale())
+                    || ($record->hasExtension(FluentExtension::class) && !$record->existsInLocale())
+                ) {
+                    continue;
+                }
+
+                $this->add(Document::create($record), false);
             }
 
-            $this->add(Document::create($record), false);
-        }
+            $this->commit();
 
-        $this->commit();
+            if ($chunk->count() < $chunkSize) {
+                // If our last chunk had less item than our chunkSize, we've reach the end.
+                break;
+            }
+
+            $currentChunk++;
+        }
 
         if (
             ClassInfo::exists(Versioned::class)
