@@ -38,7 +38,7 @@ Run the buit-in task [RebuildAllIndexesTask](src/Dev/Task/RebuildAllIndexesTask.
 
 Although not neccessary, it is suggested to run the task from CLI.
 
-e.g. `sake dev/task/meilisearch-rebuild-all-indexes`
+e.g. `sake dev/tasks/meilisearch-rebuild-all-indexes`
 
 ### Search
 
