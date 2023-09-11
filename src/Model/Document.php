@@ -132,6 +132,38 @@ class Document
     }
 
     /**
+     * @param string $class
+     * @return array|null
+     */
+    public static function get_sortable_fields(string $class): ?array
+    {
+        $sortable_fields = [];
+
+        $classes = [];
+        $fields = [];
+
+        foreach (ClassInfo::getValidSubClasses($class) as $subClass) {
+            $sortableFields = Config::inst()->get($subClass, 'meilisearch_sortable_fields') ?? [];
+
+            $fields = array_merge($fields, $sortableFields);
+
+            $classes[] = $subClass;
+        }
+
+        $fields = array_values(array_unique($fields));
+
+        if (empty($fields)) {
+            $fields = null;
+        }
+
+        foreach ($classes as $subClass) {
+            $sortable_fields[$subClass] = $fields;
+        }
+
+        return $sortable_fields[$class];
+    }
+
+    /**
      * @return array
      * @throws NotFoundExceptionInterface
      */
