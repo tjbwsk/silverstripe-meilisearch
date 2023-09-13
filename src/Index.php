@@ -114,7 +114,7 @@ abstract class Index
             static::throw_or_log(new \RuntimeException('MEILISEARCH_HOST_AND_PORT not defined.'));
         }
 
-        static::$client = new Client($hostAndPort);
+        static::$client = new Client($hostAndPort, Environment::getEnv('MEILISEARCH_MASTER_KEY') ?: null);
 
         return static::$client;
     }
