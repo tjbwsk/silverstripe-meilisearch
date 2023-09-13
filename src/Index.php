@@ -212,6 +212,15 @@ abstract class Index
             $indexName .= '_' . strtolower(Locale::getCurrentLocale()->Locale);
         }
 
+        if (
+            ($prefix = Environment::getEnv('MEILISEARCH_INDEXES_PREFIX')) !== false
+            && !empty($prefix = trim($prefix ?? ''))
+        ) {
+            $prefix = preg_replace('/[^a-z|A-Z|0-9|_|-]/', '_', $prefix);
+
+            $indexName = $prefix . '_' . $indexName;
+        }
+
         return $indexName;
     }
 
