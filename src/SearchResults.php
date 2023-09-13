@@ -167,6 +167,7 @@ class SearchResults extends ViewableData
             $this->cachedList[$cacheKey] = $this->results;
         } else {
             ($list = PaginatedList::create($this->results, Controller::curr()->getRequest()))
+                ->setPageLength($perPage)
                 ->setPaginationGetVar($list->getPaginationGetVar() . '-' . $this->index->getUniqueKey());
 
             $this->cachedList[$cacheKey] = $list;
