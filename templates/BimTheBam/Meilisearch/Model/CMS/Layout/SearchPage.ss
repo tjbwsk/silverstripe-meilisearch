@@ -16,7 +16,7 @@
                     <% if $Results.OverLimit %><p><small>More than {$Results.Limit} results. Please refine your search.</small></p><% end_if %>
                     <% loop $Results.getList(true, 10) %>
                         <% if $Record.Title %><h4>{$Record.Title}</h4><% end_if %>
-                        <% if $Record.Content %><p>{$Record.Content.ContextSummary(200, $Up.Up.Up.Q)}</p><% end_if %>
+                        <% if $Record.Content %><p>{$Record.Content.ContextSummary(200, $Up.Q)}</p><% end_if %>
                         <% if $Record.Link %><p><a href="{$Record.Link}" title="<%t BimTheBam\Meilisearch\Model\CMS\SearchPage.TO_CONTENT 'To content' %>"><%t BimTheBam\Meilisearch\Model\CMS\SearchPage.TO_CONTENT 'To content' %></a></p><% end_if %>
                     <% end_loop %>
                     <% if $Results.getList(true, 10).MoreThanOnePage %>

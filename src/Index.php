@@ -400,14 +400,14 @@ abstract class Index
     }
 
     /**
-     * @param $q
+     * @param string $q
      * @param array|null $filter
      * @param int|null $limit
      * @return SearchResults
      * @throws NotFoundExceptionInterface
      * @throws Throwable
      */
-    public function search($q, ?array $filter = null, ?int $limit = null): SearchResults
+    public function search(string $q, ?array $filter = null, ?int $limit = null): SearchResults
     {
         if ($limit === null || $limit <= 0) {
             $limit = 100;
@@ -426,7 +426,7 @@ abstract class Index
 
         $estimatedTotalHits = $meiliResults->getEstimatedTotalHits();
 
-        $results = SearchResults::create($this);
+        $results = SearchResults::create($this, $q);
 
         if (count($hits = $meiliResults->getHits()) > 0) {
             $ids = array_map(fn (array $hit) => $hit['ID'], $hits);
