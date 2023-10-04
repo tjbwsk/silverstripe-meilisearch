@@ -8,6 +8,7 @@ use ReflectionException;
 use SilverStripe\Core\ClassInfo;
 use SilverStripe\Core\Injector\Injector;
 use SilverStripe\Dev\BuildTask;
+use SilverStripe\Versioned\Versioned;
 use Throwable;
 
 /**
@@ -40,11 +41,19 @@ class RebuildAllIndexesTask extends BuildTask
      */
     public function run($request): void
     {
-        foreach (ClassInfo::subclassesFor(Index::class, false) as $indexClass) {
-            /** @var Index $index */
-            $index = Injector::inst()->create($indexClass);
+        $stage = $request->getVar('stage');
 
-            $index->rebuild();
-        }
+        Versioned::withVersionedMode(function () use ($stage) {
+            if ($stage) {
+                Versioned::set_stage($stage);
+            }
+
+            foreach (ClassInfo::subclassesFor(Index::class, false) as $indexClass) {
+                /** @var Index $index */
+                $index = Injector::inst()->create($indexClass);
+
+                $index->rebuild();
+            }
+        });
     }
 }
