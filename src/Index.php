@@ -208,8 +208,12 @@ abstract class Index
 
         $indexName = strtolower(str_replace('\\', '_', $sng::class));
 
-        if (ClassInfo::exists(FluentExtension::class) && $sng->hasExtension(FluentExtension::class)) {
-            $indexName .= '_' . strtolower(Locale::getCurrentLocale()->Locale);
+        if (
+            ClassInfo::exists(FluentExtension::class)
+            && $sng->hasExtension(FluentExtension::class)
+            && ($locale = Locale::getCurrentLocale())
+        ) {
+            $indexName .= '_' . strtolower($locale->Locale);
         }
 
         if (
